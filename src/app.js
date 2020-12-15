@@ -3,20 +3,28 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
-const { NODE_ENV } = require('./config')
+const { NODE_ENV, CLIENT_ORIGIN } = require('./config')
+const itemsRouter = require('./items/items-router');
 
 const app = express()
 
-const morganOption = (NODE_ENV === 'production')
-  ? 'tiny'
-  : 'common';
+app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
+  skip: () => NODE_ENV === 'test'
+}))
+  
+app.use(
+  cors({
+      origin: CLIENT_ORIGIN
+  })
+);
 
-app.use(morgan(morganOption))
 app.use(helmet())
-
+app.use('/api/items', itemsRouter)
 app.get('/', (req, res) => {
     res.send('Hello, world!')
 })
+
+
 app.use(function errorHandler(error, req, res, next) {
        let response
        if (NODE_ENV === 'production') {
@@ -27,7 +35,7 @@ app.use(function errorHandler(error, req, res, next) {
        }
        res.status(500).json(response)
      })
-    
+  
 
 app.use(cors())
 

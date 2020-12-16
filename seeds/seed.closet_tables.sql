@@ -1,7 +1,7 @@
 INSERT INTO cc_users (id, fname, lname, username, email, password)
 VALUES
-        ( 1, 'Example', 'User', 'exampleuser', 'exampleuser@example.com', '$2a$12$.2zQKu4H2bk0JKQe22XDwOmTzazpFjvlnY8.KlaUVUxVmdlLmfAuW'),
-        (123, 'Francesca','Litterio', 'flitterio', 'francesca@litterio.net', '$2a$12$NuG4ocezpveexIHaLGcrMuIs3ZdvACIfBlsMI5wpc0PI7zWlS6l1q');
+        ( 1, 'Example', 'User', 'exampleuser', 'exampleuser@example.com', 'password'),
+        (123, 'Francesca','Litterio', 'flitterio', 'francesca@litterio.net', 'Abc123!');
 
 INSERT INTO cc_items (id, userid, title, image, season, category, favorite)
     VALUES

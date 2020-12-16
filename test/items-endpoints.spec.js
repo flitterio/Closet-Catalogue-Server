@@ -203,7 +203,7 @@ describe(`GET /api/items/:itemid`, () => {
       })
     })
 
-describe.only(`POST /api/items`, () => {
+describe(`POST /api/items`, () => {
         const testUsers = makeUsersArray();
         const testUser = testUsers[0]
             beforeEach('insert Users', () => {

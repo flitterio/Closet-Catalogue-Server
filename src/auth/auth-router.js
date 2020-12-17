@@ -9,6 +9,8 @@ authRouter
       const { username, password} = req.body
       const signinUser = {username, password}
     
+      console.log(signinUser);
+      
     for (const [key, value] of Object.entries(signinUser))
     if(value == null)
     return res.status(400).json({

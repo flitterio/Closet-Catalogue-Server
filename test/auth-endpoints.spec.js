@@ -6,7 +6,7 @@ const {makeUsersArray} = require ('./users.fixtures')
 
 
 
-describe.only('Auth Endpoints', function() {
+describe('Auth Endpoints', function() {
   let db
 
   const  testUsers  = makeUsersArray();

@@ -13,11 +13,12 @@ app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test'
 }))
   
-app.use(
-  cors({
-      origin: CLIENT_ORIGIN
-  })
-);
+//app.use(
+//   cors({
+//       origin: CLIENT_ORIGIN
+//   })
+// );
+app.use(cors());
 
 app.use(helmet())
 app.use('/api/items', itemsRouter)
@@ -39,7 +40,5 @@ app.use(function errorHandler(error, req, res, next) {
        res.status(500).json(response)
      })
   
-
-app.use(cors())
 
 module.exports = app

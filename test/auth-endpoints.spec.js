@@ -77,6 +77,7 @@ describe('Auth Endpoints', function() {
                    process.env.JWT_SECRET,
                    {
                      subject: testUser.username,
+                     expiresIn: process.env.JWT_EXPIRY,
                      algorithm: 'HS256',
                    }
                  )
@@ -87,5 +88,38 @@ describe('Auth Endpoints', function() {
                      authToken: expectedToken,
                    })
                })
-  })
+          })
+  describe(`POST /api/auth/refresh`, () => {
+      beforeEach('insert users', () =>
+          seedUsers(
+            db,
+            testUsers,
+        )
+      )
+      function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+        const token = jwt.sign({userid: user.id }, secret, {
+          subject: user.username,
+          algorithm: 'HS256',
+        })
+        return `Bearer ${token}`
+      } 
+        
+      it(`responds 200 and JWT auth token using secret`, () => {
+        const expectedToken = jwt.sign(
+            { userid: testUser.id },
+              process.env.JWT_SECRET,
+                {
+                  subject: testUser.username,
+                  expiresIn: process.env.JWT_EXPIRY,
+                  algorithm: 'HS256',
+                }
+              )
+          return supertest(app)
+            .post('/api/auth/refresh')
+            .set('Authorization', makeAuthHeader(testUser))
+            .expect(200, {
+             authToken: expectedToken,
+          })
+      })
+    })
 })

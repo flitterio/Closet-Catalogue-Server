@@ -31,23 +31,8 @@ describe('items Endpoints', function() {
         subject: user.username,
         algorithm: 'HS256',
       })
-      return `Basic ${token}`
-    }
-
-// describe(`Protected endpoints`, () => {
-//         const testUsers = makeUsersArray();
-//         const testItems = makeItemsArray();
-//         beforeEach('inset Items', () => {
-//             return db
-//             .into('cc_users')
-//             .insert(testUsers)
-//             .then(() => {
-//                 return db
-//                     .into('cc_items')
-//                     .insert(testItems)   
-//             })
-//         })
-//     })  
+      return `Bearer ${token}`
+    } 
 
 describe(`GET /api/items`, () => {
     context(`Given no items`, () => {
@@ -108,19 +93,21 @@ describe(`GET /api/items`, () => {
          })
     })
 
-describe.only(`GET /api/items/:itemid`, () => {
-  const testUsers = makeUsersArray();
-  const testItems = makeItemsArray();
-  beforeEach('inset Items', () => {
-      return db
-      .into('cc_users')
-      .insert(testUsers)
-      .then(() => {
+describe(`Protected endpoints`, () => {
+      const testUsers = makeUsersArray();
+      const testItems = makeItemsArray();
+      beforeEach('inset Items', () => {
           return db
-              .into('cc_items')
-              .insert(testItems)   
+          .into('cc_users')
+          .insert(testUsers)
+          .then(() => {
+              return db
+                  .into('cc_items')
+                  .insert(testItems)   
+          })
       })
-  })
+  
+describe(`GET /api/items/:itemid`, () => {
 
   it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
         return supertest(app)
@@ -135,91 +122,83 @@ describe.only(`GET /api/items/:itemid`, () => {
                .set('Authorization', makeAuthHeader(validUser, invalidSecret))
                .expect(401, {error: `Unauthorized request`})
              })
-    it.skip(`responds 401 'Unauthorized request' when invalid user`, () => {
-           const userInvalidCreds = { username: 'user-not', password: 'existy' }
+    it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
+           const invalidUser = { username: 'user-not-existy', id: 1}
            return supertest(app)
              .get(`/api/items/1`)
-             .set('Authorization', makeAuthHeader(userInvalidCreds))
+             .set('Authorization', makeAuthHeader(invalidUser))
               .expect(401, { error: `Unauthorized request` })
           })
 
-    it.skip(`responds 401 'Unauthorized request' when invalid password`, () => {
-        const testUsers = makeUsersArray();
-           const userInvalidPass = { username: testUsers[0].username, password: 'wrong' }
-          return supertest(app)
-         .get(`/api/items/1`)
-         .set('Authorization', makeAuthHeader(userInvalidPass))
-         .expect(401, { error: `Unauthorized request` })
-             })
-
-    context (`Given no items`, () => {
-        const testUsers = makeUsersArray();
-        beforeEach(() => 
-            db.into('cc_users').insert(testUsers)
-            )
+    // context (`Given no items`, () => {
+    //     const testUsers = makeUsersArray();
+    //     beforeEach(() => 
+    //         db.into('cc_users').insert(testUsers)
+    //         )
             
-        it.skip(`responds with 404`, () => {
-          const itemId = 123456
-          return supertest(app)
-            .get(`/api/items/${itemId}`)
-            .set('Authorization', makeAuthHeader(testUsers[0]))
-            .expect(404, { error: { message: `Item doesn't exist` } })
-        })
-      })
+    //     it.skip(`responds with 404`, () => {
+    //       const itemId = 123456
+    //       return supertest(app)
+    //         .get(`/api/items/${itemId}`)
+    //         .set('Authorization', makeAuthHeader(testUsers[0]))
+    //         .expect(404, { error: { message: `Item doesn't exist` } })
+    //     })
+    //   })
   
-      context('Given there are items in the database', () => {
-        const testUsers = makeUsersArray();
-        const testItems = makeItemsArray();
+    //   context('Given there are items in the database', () => {
+    //     const testUsers = makeUsersArray();
+    //     const testItems = makeItemsArray();
   
-        beforeEach('insert Items', () => {
-          return db
-            .into('cc_users')
-            .insert(testUsers)
-            .then(() => {
-              return db
-                .into('cc_items')
-                .insert(testItems)
-            })
-        })
+    //     beforeEach('insert Items', () => {
+    //       return db
+    //         .into('cc_users')
+    //         .insert(testUsers)
+    //         .then(() => {
+    //           return db
+    //             .into('cc_items')
+    //             .insert(testItems)
+    //         })
+    //     })
   
   
-        it.skip('responds with 200 and the specified Items', () => {
-          const itemId = 2
-          const expectedItem = testItems[itemId - 1]
-          return supertest(app)
-            .get(`/api/items/${itemId}`)
-            .set('Authorization', makeAuthHeader(testUsers[0]))
-            .expect(200, expectedItem)
-        })
-      })
+    //     it.skip('responds with 200 and the specified Items', () => {
+    //       const itemId = 2
+    //       const expectedItem = testItems[itemId - 1]
+    //       return supertest(app)
+    //         .get(`/api/items/${itemId}`)
+    //         .set('Authorization', makeAuthHeader(testUsers[0]))
+    //         .expect(200, expectedItem)
+    //     })
+    //   })
   
-      context(`Given an XSS attack Item`, () => {
-        const testUsers = makeUsersArray();
-        const { maliciousItem, expectedItem } = makeMaliciousItem()
+    //   context(`Given an XSS attack Item`, () => {
+    //     const testUsers = makeUsersArray();
+    //     const { maliciousItem, expectedItem } = makeMaliciousItem()
   
-        beforeEach('insert malicious Item', () => {
-          return db
-            .into('cc_users')
-            .insert(testUsers)
-            .then(() => {
-              return db
-              .into('cc_items')
-              .insert([ maliciousItem ])
-            })
-        })
+    //     beforeEach('insert malicious Item', () => {
+    //       return db
+    //         .into('cc_users')
+    //         .insert(testUsers)
+    //         .then(() => {
+    //           return db
+    //           .into('cc_items')
+    //           .insert([ maliciousItem ])
+    //         })
+    //     })
   
-         it.skip('removes XSS attack content', () => {
-           return supertest(app)
-            .get(`/api/items/${maliciousItem.id}`)
-           .set('Authorization', makeAuthHeader(testUsers[0]))
-             .expect(200)
-             .expect(res => {
-               expect(res.body.title).to.eql(expectedItem.title)
-               expect(res.body.image).to.eql(expectedItem.image)
-             })
-         })
-      })
+    //      it.skip('removes XSS attack content', () => {
+    //        return supertest(app)
+    //         .get(`/api/items/${maliciousItem.id}`)
+    //        .set('Authorization', makeAuthHeader(testUsers[0]))
+    //          .expect(200)
+    //          .expect(res => {
+    //            expect(res.body.title).to.eql(expectedItem.title)
+    //            expect(res.body.image).to.eql(expectedItem.image)
+    //          })
+    //      })
+    //   })
     })
+  })
 
 describe(`POST /api/items`, () => {
         const testUsers = makeUsersArray();

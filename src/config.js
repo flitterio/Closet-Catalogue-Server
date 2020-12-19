@@ -6,4 +6,5 @@ module.exports = {
     CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'http://localhost:3000/', 
     //'https://closet-catalogue.flitterio.vercel.app/',
     JWT_SECRET: process.env.JWT_SECRET || 'pizza',
+    JWT_EXPIRY: process.env.JWT_EXPIRY || '3h',
   }

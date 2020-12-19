@@ -22,7 +22,7 @@ function makeUsersArray () {
     ];
 }
 function seedUsers(db, users) {
-    const preppedUsers = makeUsersArray().map(user => ({
+    const preppedUsers = users.map(user => ({
       ...user,
       password: bcrypt.hashSync(user.password, 1)
     }))

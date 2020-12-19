@@ -2,7 +2,7 @@
   "name": "closet-catalogue-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "mocha --require test/setup.js",
     "dev": "nodemon src/server.js",
@@ -30,12 +30,14 @@
     "morgan": "^1.10.0",
     "pg": "^8.5.1",
     "postgrator-cli": "^3.2.0",
+    "utc": "^0.1.0",
     "xss": "^1.0.8"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
+    "postgrator-cli": "3.2.0",
     "supertest": "^6.0.1"
   }
 }

@@ -1,5 +1,6 @@
 const express = require('express')
 const AuthService = require('./auth-service')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const authRouter = express.Router()
 const jsonBodyParser = express.json()
@@ -9,7 +10,7 @@ authRouter
       const { username, password} = req.body
       const signinUser = {username, password}
     
-      console.log(signinUser);
+      console.log('signin user ', signinUser);
       
     for (const [key, value] of Object.entries(signinUser))
     if(value == null)
@@ -32,13 +33,20 @@ authRouter
                error: 'Incorrect username or password',
              })
         const sub = dbUser.username
-        const payload = { userid: dbUser.id }
+        const payload = { usersid: dbUser.id, fname: dbUser.fname, lname: dbUser.lname, email: dbUser.email  }
         res.send({
           authToken: AuthService.createJwt(sub, payload),
                  })
     })
   })
     .catch(next)
+  })
+  authRouter.post('/refresh', requireAuth, (req, res) => {
+    const sub = req.user.username
+    const payload = { userid: req.user.id }
+    res.send({
+      authToken: AuthService.createJwt(sub, payload),
+    })
   })
 
 module.exports = authRouter

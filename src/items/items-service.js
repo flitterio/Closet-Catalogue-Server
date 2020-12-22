@@ -11,6 +11,15 @@ const ItemsService = {
             .first()
     }, 
 
+    //IS THIS RIGHT???
+    getUserItems(knex, userid){
+        return knex
+            .from('cc_items')
+            .select('*')
+            .where('userid', userid)
+            
+    },
+
     insertItem(knex, newItem) {
         return knex
             .insert(newItem)

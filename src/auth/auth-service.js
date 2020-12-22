@@ -19,16 +19,20 @@ const AuthService = {
     //     .split(':')
     // },
     createJwt(subject, payload) {
-           return jwt.sign(payload, config.JWT_SECRET, {
+      console.log('payload', payload)
+        const signinJwt = jwt.sign(payload, config.JWT_SECRET, {
              subject,
              expiresIn: config.JWT_EXPIRY,
              algorithm: 'HS256',
-           })
+           });
+           return signinJwt
          },
          verifyJwt(token) {
-             return jwt.verify(token, config.JWT_SECRET, {
+            const verifyJwt= jwt.verify(token, config.JWT_SECRET, {
                algorithms: ['HS256'],
-             })
+             });
+             console.log('verifyjwt', verifyJwt)
+             return verifyJwt
            },   
   }
   

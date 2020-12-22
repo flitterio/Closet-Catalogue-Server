@@ -1,11 +1,11 @@
 const express = require('express')
 const path = require('path')
+const { serializeUser } = require('./users-service')
 const UsersService = require('./users-service')
 const usersRouter = express.Router()
 const jsonBodyParser = express.json()
 
-
-usersRouter
+  usersRouter
   .post('/', jsonBodyParser, (req, res, next) => {
     const { password, username, fname, lname, email } = req.body
     const regUser = {password, username, fname, lname, email}
@@ -58,4 +58,26 @@ usersRouter
       .catch(next)
   })
 
+usersRouter
+  .route('/:userid')
+  .all((req, res, next) => {
+    UsersService.getUserInfo(
+      req.app.get('db'),
+      req.params.userid
+    )
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({
+            error: { message: `User doesn't exist` }
+          })
+        }
+        res.user = user
+        next()
+      })
+      .catch(next)
+  })
+  .get((req, res, next) => {
+    res.json(serializeUser(res.user))
+  })
+  
 module.exports = usersRouter

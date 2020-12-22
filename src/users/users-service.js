@@ -4,12 +4,20 @@ const xss = require('xss')
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
 const UsersService = {
+  
     hasUserWithUserName(db, username) {
      return db('cc_users')
             .where({ username })
             .first()
             .then(user => !!user)
            },
+
+    getUserInfo(db, id){
+      return db('cc_users')
+          .where({ id })
+          .first()
+    },
+
     insertUser(db, newUser) {
              return db
                .insert(newUser)
@@ -45,6 +53,7 @@ const UsersService = {
            date_created: new Date(user.date_created),
         }
        },
+
   }
   
   module.exports = UsersService

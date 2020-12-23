@@ -11,7 +11,7 @@ function requireAuth(req, res, next) {
     }
     try {
         const payload = AuthService.verifyJwt(bearerToken)
-
+        console.log('payload.sub', payload.sub);
              AuthService.getUserWithUserName(
                req.app.get('db'),
                payload.sub,
@@ -21,8 +21,8 @@ function requireAuth(req, res, next) {
                 if (!user)
                   return res.status(401).json({ error: 'Unauthorized request' })
                 
-                 // res.locals.user = user
-
+                req.user = user
+            console.log('req.user', req.user)
                   next()
                })
                .catch(err => {

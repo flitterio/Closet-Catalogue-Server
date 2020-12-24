@@ -22,7 +22,7 @@ itemsRouter
     .all(requireAuth)
     .get((req, res, next ) => {
         const knexInstance = req.app.get('db')
-        ItemsService.getUserItems(knexInstance, req.user.id) //SOMETHING WEIRD TO GET USER ID 
+        ItemsService.getUserItems(knexInstance, req.user.id)  
         .then(items => {
             res.json(items.map(serializeItem))
         })

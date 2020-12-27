@@ -39,11 +39,13 @@ itemsRouter
                 error: {message: `Missing '${key}' in request body` }
             })
         
-        newItem = { ...newItem, image, season, category, favorite}
+       newItem = { ...newItem, image, season, category, favorite}
 
         newItem.userid = req.user.id
         
-        ItemsService.insertItem(
+        console.log(newItem.userid)
+
+        return ItemsService.insertItem(
             req.app.get('db'),
             newItem
         )

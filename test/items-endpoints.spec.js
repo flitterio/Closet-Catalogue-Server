@@ -129,78 +129,10 @@ describe(`GET /api/items/:itemid`, () => {
              .set('Authorization', makeAuthHeader(invalidUser))
               .expect(401, { error: `Unauthorized request` })
           })
-
-    // context (`Given no items`, () => {
-    //     const testUsers = makeUsersArray();
-    //     beforeEach(() => 
-    //         db.into('cc_users').insert(testUsers)
-    //         )
-            
-    //     it.skip(`responds with 404`, () => {
-    //       const itemId = 123456
-    //       return supertest(app)
-    //         .get(`/api/items/${itemId}`)
-    //         .set('Authorization', makeAuthHeader(testUsers[0]))
-    //         .expect(404, { error: { message: `Item doesn't exist` } })
-    //     })
-    //   })
-  
-    //   context('Given there are items in the database', () => {
-    //     const testUsers = makeUsersArray();
-    //     const testItems = makeItemsArray();
-  
-    //     beforeEach('insert Items', () => {
-    //       return db
-    //         .into('cc_users')
-    //         .insert(testUsers)
-    //         .then(() => {
-    //           return db
-    //             .into('cc_items')
-    //             .insert(testItems)
-    //         })
-    //     })
-  
-  
-    //     it.skip('responds with 200 and the specified Items', () => {
-    //       const itemId = 2
-    //       const expectedItem = testItems[itemId - 1]
-    //       return supertest(app)
-    //         .get(`/api/items/${itemId}`)
-    //         .set('Authorization', makeAuthHeader(testUsers[0]))
-    //         .expect(200, expectedItem)
-    //     })
-    //   })
-  
-    //   context(`Given an XSS attack Item`, () => {
-    //     const testUsers = makeUsersArray();
-    //     const { maliciousItem, expectedItem } = makeMaliciousItem()
-  
-    //     beforeEach('insert malicious Item', () => {
-    //       return db
-    //         .into('cc_users')
-    //         .insert(testUsers)
-    //         .then(() => {
-    //           return db
-    //           .into('cc_items')
-    //           .insert([ maliciousItem ])
-    //         })
-    //     })
-  
-    //      it.skip('removes XSS attack content', () => {
-    //        return supertest(app)
-    //         .get(`/api/items/${maliciousItem.id}`)
-    //        .set('Authorization', makeAuthHeader(testUsers[0]))
-    //          .expect(200)
-    //          .expect(res => {
-    //            expect(res.body.title).to.eql(expectedItem.title)
-    //            expect(res.body.image).to.eql(expectedItem.image)
-    //          })
-    //      })
-    //   })
     })
   })
 
-describe(`POST /api/items`, () => {
+describe.only(`POST /api/items`, () => {
         const testUsers = makeUsersArray();
         const testUser = testUsers[0]
             beforeEach('insert Users', () => {

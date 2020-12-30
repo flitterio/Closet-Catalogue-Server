@@ -73,5 +73,59 @@ usersRouter
       .catch(next)
   })
   
+  usersRouter
+    .route('/:userId')
+    .all(requireAuth)
+    .all((req, res, next) => {
+      UsersService.getUserInfo(
+        req.app.get('db'),
+        req.user.id
+      )
+        .then(user => {
+          if (!user) {
+            return res.status(404).json({
+              error: { message: `User doesn't exist` }
+            })
+          }
+          res.user = user
+          next()
+        })
+        .catch(next)
+    })
+    .get((req, res, next) => {
+      res.json(serializeUser(res.user))
+    })
+    .delete((req, res, next) => {
+      UsersService.deleteUser(
+        req.app.get('db'),
+        req.user.id
+      )
+        .then(numRowsAffected => {
+          res.status(204).end()
+        })
+        .catch(next)
+    })
+    .patch(jsonBodyParser, (req, res, next) => {
+      const { fname, lname, username, email } = req.body
+      const userToUpdate = { fname, lname, username, email}
+  
+      const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
+      if (numberOfValues === 0)
+        return res.status(400).json({
+          error: {
+            message: `Request body must contain either first name, last name, username, or email`
+          }
+        })
+  
+      UsersService.updateUser(
+        req.app.get('db'),
+        req.user.id,
+        userToUpdate
+      )
+        .then(numRowsAffected => {
+          res.status(204).end()
+        })
+        .catch(next)
+    })
   
 module.exports = usersRouter

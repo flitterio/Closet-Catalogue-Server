@@ -18,6 +18,17 @@ const UsersService = {
           .first()
     },
 
+    deleteUser(knex, id) {
+      return knex('cc_users')
+        .where({ id })
+        .delete()
+    },
+    updateUser(knex, id, newUserFields) {
+      return knex('cc_users')
+        .where({ id })
+        .update(newUserFields)
+    },
+
     insertUser(db, newUser) {
              return db
                .insert(newUser)

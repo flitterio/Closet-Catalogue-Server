@@ -36,10 +36,13 @@ describe('items Endpoints', function() {
 
 describe(`GET /api/items`, () => {
     context(`Given no items`, () => {
-        it(`responds with 200 and an empty list`,
+      const testUsers = makeUsersArray(); 
+
+      it(`responds with 200 and an empty list`,
         () => {
             return supertest(app)
                 .get('/api/items')
+                .set('Authorization', makeAuthHeader(testUsers[0]))
                 .expect(200, [])
         })
     })
@@ -62,6 +65,7 @@ describe(`GET /api/items`, () => {
         it('responds with 200 and all of the Items', () => {
             return supertest(app)
                 .get('/api/items')
+                .set('Authorization', makeAuthHeader(testUsers[0]))
                 .expect(200, testItems)
         })
     })
@@ -84,6 +88,7 @@ describe(`GET /api/items`, () => {
         it('removes XSS attack content',  () => {
             return supertest(app)
                 .get('/api/items')
+                .set('Authorization', makeAuthHeader(testUsers[0]))
                 .expect(200)
                 .expect(res => {
                     expect(res.body[0].title).to.eql(expectedItem.title)
@@ -107,11 +112,11 @@ describe(`Protected endpoints`, () => {
           })
       })
   
-describe(`GET /api/items/:itemid`, () => {
+describe.only(`GET /api/items/:itemid`, () => {
 
   it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
         return supertest(app)
-            .get(`api/items/123`)
+            .get(`api/items/1`)
             .expect(401, {error: `Missing bearer token`})
     })
     it(`responds 401 'Unauthorized request' when invalid JWT secret`, () => {
@@ -132,7 +137,7 @@ describe(`GET /api/items/:itemid`, () => {
     })
   })
 
-describe.only(`POST /api/items`, () => {
+describe(`POST /api/items`, () => {
         const testUsers = makeUsersArray();
         const testUser = testUsers[0]
             beforeEach('insert Users', () => {
@@ -204,12 +209,14 @@ describe.only(`POST /api/items`, () => {
             })
           })
 
-describe(`DELETE /api/items/:itemId`, () => {
+describe.only(`DELETE /api/items/:itemId`, () => {
     context(`Given no items`, () => {
+      const testUsers = makeUsersArray();
          it(`responds with 404`, () => {
              const itemId = 123456
                 return supertest(app)
                   .delete(`/api/items/${itemId}`)
+                  .set('Authorization', makeAuthHeader(testUsers[0]))
                   .expect(404, { error: { message: `Item doesn't exist` } })
               })
             })
@@ -234,6 +241,7 @@ describe(`DELETE /api/items/:itemId`, () => {
                 const expectedItems = testItems.filter(item => item.id !== idToRemove)
                 return supertest(app)
                   .delete(`/api/items/${idToRemove}`)
+                  .set('Authorization', makeAuthHeader(testUsers[0]))
                   .expect(204)
                   .then(res =>
                     supertest(app)
@@ -282,6 +290,7 @@ describe(`PATCH /api/items/:itemid`, () => {
                 }
             return supertest(app)
                   .patch(`/api/items/${idToUpdate}`)
+                  .set('Authorization', makeAuthHeader(testUsers[1]))
                   .send(updateItem)
                   .expect(204)
                   .then(res =>

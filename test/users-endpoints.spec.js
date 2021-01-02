@@ -5,7 +5,7 @@ const app = require('../src/app')
 //const { makeItemsArray } = require('./items.fixtures')
 const { makeUsersArray, seedUsers } = require('./users.fixtures')
 
-describe.only('Users Endpoints', function() {
+describe('Users Endpoints', function() {
   let db
 
   const  testUsers  = makeUsersArray()

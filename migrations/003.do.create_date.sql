@@ -1,2 +1,0 @@
-ALTER TABLE cc_users
-ADD date_created TIMESTAMPTZ DEFAULT now() NOT NULL;

@@ -4,7 +4,8 @@ CREATE TABLE cc_users (
     lname TEXT NOT NULL,
     username TEXT NOT NULL,
     email VARCHAR NOT NULL,
-    password VARCHAR NOT NULL
+    password VARCHAR NOT NULL,
+    date_created TIMESTAMPTZ DEFAULT now() NOT NULL;
 );
 
 CREATE TABLE cc_items (
@@ -12,7 +13,6 @@ CREATE TABLE cc_items (
     userid INTEGER REFERENCES cc_users(id) ON DELETE CASCADE NOT NULL,
     title TEXT NOT NULL,
     image VARCHAR,
-    size VARCHAR,
     season TEXT,
     category TEXT,
     favorite BOOLEAN 

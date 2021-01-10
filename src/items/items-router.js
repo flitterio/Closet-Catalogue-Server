@@ -43,7 +43,7 @@ itemsRouter
 
         newItem.userid = req.user.id
         
-        console.log(newItem.userid)
+        //console.log(newItem.userid)
 
         return ItemsService.insertItem(
             req.app.get('db'),

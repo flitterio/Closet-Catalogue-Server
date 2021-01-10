@@ -11,7 +11,7 @@ authRouter
       const signinUser = {username, password}
     
       console.log('signin user ', signinUser);
-      console.log('db', req.app.get('db'));
+      //console.log('db', req.app.get('db'));
       
     for (const [key, value] of Object.entries(signinUser))
       //console.log('for key value pairs, about to check if required feilds are met')
@@ -21,6 +21,10 @@ authRouter
         }),
           console.log('value==null'))
 
+      console.log('authservice.getuserwith', AuthService.getUserWithUserName(
+        req.app.get('db'),
+        signinUser.username
+      ))
     AuthService.getUserWithUserName(
       req.app.get('db'),
       signinUser.username

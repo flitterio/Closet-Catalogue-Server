@@ -4,11 +4,13 @@ const config = require('../config')
 
 const AuthService = {
     getUserWithUserName(db, username) {
+      console.log('getuserwithusername called')
       return db('cc_users')
         .where({ username })
         .first()
     },
     comparePasswords(password, hash) {
+      console.log('comparepasswords called')
       return bcrypt.compare(password, hash)
     },
 
@@ -19,7 +21,7 @@ const AuthService = {
     //     .split(':')
     // },
     createJwt(subject, payload) {
-      //console.log('payload', payload)
+      console.log('payload', payload)
         const signinJwt = jwt.sign(payload, config.JWT_SECRET, {
              subject,
              expiresIn: config.JWT_EXPIRY,
@@ -31,7 +33,7 @@ const AuthService = {
             const verifyJwt= jwt.verify(token, config.JWT_SECRET, {
                algorithms: ['HS256'],
              });
-            // console.log('verifyjwt', verifyJwt)
+             console.log('verifyjwt', verifyJwt)
              return verifyJwt
            },   
   }

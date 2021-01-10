@@ -11,9 +11,10 @@ authRouter
       const signinUser = {username, password}
     
       console.log('signin user ', signinUser);
+      console.log('db', req.app.get('db'));
       
     for (const [key, value] of Object.entries(signinUser))
-      console.log('for key value pairs, about to check if required feilds are met')
+      //console.log('for key value pairs, about to check if required feilds are met')
     if(value == null)
         return (res.status(400).json({
             error: `Missing '${key}' in request body` 

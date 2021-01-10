@@ -5,7 +5,7 @@ CREATE TABLE cc_users (
     username TEXT NOT NULL,
     email VARCHAR NOT NULL,
     password VARCHAR NOT NULL,
-    date_created TIMESTAMPTZ DEFAULT now() NOT NULL;
+    date_created TIMESTAMPTZ DEFAULT now() NOT NULL
 );
 
 CREATE TABLE cc_items (

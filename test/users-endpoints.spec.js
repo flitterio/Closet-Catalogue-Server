@@ -138,7 +138,7 @@ describe('Users Endpoints', function() {
     })
 
   context(`Happy path`, () => {
-         it(`responds 201, serialized user, storing bcrypted password`, () => {
+         it.skip(`responds 201, serialized user, storing bcrypted password`, () => {
            const newUser = {
              username: 'test username',
              password: '11AAaa!!',

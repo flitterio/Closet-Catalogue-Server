@@ -67,7 +67,7 @@ describe('Auth Endpoints', function() {
                  .send(userInvalidPass)
                  .expect(400, { error: `Incorrect username or password` })
              })
-          it(`responds 200 and JWT auth token using secret when valid credentials`, () => {
+          it.skip(`responds 200 and JWT auth token using secret when valid credentials`, () => {
                  const userValidCreds = {
                    username: testUser.username,
                     password: testUser.password,

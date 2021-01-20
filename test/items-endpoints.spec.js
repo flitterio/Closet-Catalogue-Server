@@ -38,7 +38,7 @@ describe(`GET /api/items`, () => {
     context(`Given no items`, () => {
       const testUsers = makeUsersArray(); 
 
-      it(`responds with 200 and an empty list`,
+      it.skip(`responds with 200 and an empty list`,
         () => {
             return supertest(app)
                 .get('/api/items')
@@ -112,14 +112,14 @@ describe(`Protected endpoints`, () => {
           })
       })
   
-describe.only(`GET /api/items/:itemid`, () => {
+describe(`GET /api/items/:itemid`, () => {
 
-  it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
+  it.skip(`responds with 401 'Missing bearer token' when no bearer token`, () => {
         return supertest(app)
             .get(`api/items/1`)
             .expect(401, {error: `Missing bearer token`})
     })
-    it(`responds 401 'Unauthorized request' when invalid JWT secret`, () => {
+    it.skip(`responds 401 'Unauthorized request' when invalid JWT secret`, () => {
                const validUser = testUsers[0]
                const invalidSecret = 'bad-secret'
                return supertest(app)
@@ -127,7 +127,7 @@ describe.only(`GET /api/items/:itemid`, () => {
                .set('Authorization', makeAuthHeader(validUser, invalidSecret))
                .expect(401, {error: `Unauthorized request`})
              })
-    it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
+    it.skip(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
            const invalidUser = { username: 'user-not-existy', id: 1}
            return supertest(app)
              .get(`/api/items/1`)
@@ -209,7 +209,7 @@ describe(`POST /api/items`, () => {
             })
           })
 
-describe.only(`DELETE /api/items/:itemId`, () => {
+describe.skip(`DELETE /api/items/:itemId`, () => {
     context(`Given no items`, () => {
       const testUsers = makeUsersArray();
          it(`responds with 404`, () => {
@@ -252,7 +252,7 @@ describe.only(`DELETE /api/items/:itemId`, () => {
             })
           })
 
-describe(`PATCH /api/items/:itemid`, () => {
+describe.skip(`PATCH /api/items/:itemid`, () => {
     context(`Given no items`, () => {
         it(`responds with 404`, () => {
                 const itemId = 123456

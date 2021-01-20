@@ -10,8 +10,6 @@ const {requireAuth} = require('../middleware/jwt-auth')
   .post('/', jsonBodyParser, (req, res, next) => {
     const { password, username, fname, lname, email } = req.body
     const regUser = {password, username, fname, lname, email}
-
-    console.log(regUser)
     
     for (const field of ['fname', 'lname', 'username', 'password', 'email'])
        if (!req.body[field])

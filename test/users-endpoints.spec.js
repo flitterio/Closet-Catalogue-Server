@@ -2,7 +2,6 @@ const { expect } = require('chai')
 const knex = require('knex')
 const bcrypt = require('bcryptjs')
 const app = require('../src/app')
-//const { makeItemsArray } = require('./items.fixtures')
 const { makeUsersArray, seedUsers } = require('./users.fixtures')
 
 describe('Users Endpoints', function() {
@@ -77,8 +76,6 @@ describe('Users Endpoints', function() {
                  lname: 'test last name',
                  email: 'test email',
                }
-               // console.log(userLongPassword)
-               // console.log(userLongPassword.password.length)
                return supertest(app)
                  .post('/api/users')
                  .send(userLongPassword)

@@ -1,4 +1,4 @@
-# Closet Catelogue API
+# Closet Catalogue API
 
 Back end code to https://closet-catalogue.vercel.app/
 

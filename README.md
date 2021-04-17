@@ -9,7 +9,7 @@ POST /api/auth/singin : Authorizes User Sign In with JWT Authentication
 
 POST /api/auth/refresh : Refreshes the page after period of time to keep user logged in
 
-### Items (Protectd Endpoints)
+### Items (Protected Endpoints)
 GET /api/items : Gets all the items
 
 POST /api/items : Adds new item to the database
